@@ -1,4 +1,15 @@
 <img src="assets/logo-trend.png" alt="logo" class="w-100">
 <hr>
+<div class="col-12 text-center" *ngIf="user">
+  <div class="row">
+
+      <h4>Hello - {{user.name}} (nickname: {{user.nickname}})<br>
+              {{user.email}}<br>
+        <button class="btn btn-outline-primary w-25" (click)="logout()">Log Out</button>
+      </h4>
+
+    <hr>
+  </div>
+</div>
 <app-movie-list *ngFor="let movie of movies" [content]="movie.overview" [title]="movie.title" [poster]="movie.poster"
   [movie_id]="movie.movie_id"></app-movie-list>

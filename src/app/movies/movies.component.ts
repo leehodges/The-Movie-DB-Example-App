@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Movies } from '../shared/models/movie.model';
 import { GetMoviesService } from '../shared/services/get-movies.service';
+import {User} from '../auth/user.model';
+import {AuthService} from '../auth/auth.service';
 
 @Component({
   selector: 'app-movies',
@@ -11,7 +13,10 @@ import { GetMoviesService } from '../shared/services/get-movies.service';
 export class MoviesComponent implements OnInit {
   private subs = new Subscription();
   movies: Movies[] = [];
-  constructor(private movieHelper: GetMoviesService) {}
+  user: User;
+  constructor(private movieHelper: GetMoviesService, private authService: AuthService) {
+    this.user = this.authService.currentUserValue;
+  }
 
   ngOnInit(): void {
     this.getNowPlaying();
@@ -22,7 +27,6 @@ export class MoviesComponent implements OnInit {
       this.movieHelper.getPopular().subscribe((data: { results: any }) => {
         let output;
         if (data) {
-          debugger;
           output = data.results;
           this.movies = output.map((x: { [x: string]: any }) => new Movies(x));
         } else {
@@ -30,5 +34,9 @@ export class MoviesComponent implements OnInit {
         }
       })
     );
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

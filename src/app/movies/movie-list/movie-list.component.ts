@@ -34,7 +34,6 @@ export class MovieListComponent implements OnInit {
         .subscribe((data: { results: any }) => {
           let output;
           if (data) {
-            debugger;
             output = data.results.US;
             if (output.flatrate) {
               this.providers = output.flatrate.map(
@@ -59,7 +58,6 @@ export class MovieListComponent implements OnInit {
   getTrailers(movie_id: any) {
     this.subs.add(
       this.movieHelper.getTrailers(movie_id).subscribe((data) => {
-        debugger;
         let output;
         if (data) {
           output = data.results;
