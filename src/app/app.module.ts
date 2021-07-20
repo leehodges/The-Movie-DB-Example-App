@@ -8,6 +8,7 @@ import { MovieListComponent } from './movies/movie-list/movie-list.component';
 import { StreamingComponent } from './movies/movie-list/streaming/streaming.component';
 import { TrailersComponent } from './movies/movie-list/trailers/trailers.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
     StreamingComponent,
     TrailersComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, NgbModule],
   providers: [],
   bootstrap: [AppComponent],
 })

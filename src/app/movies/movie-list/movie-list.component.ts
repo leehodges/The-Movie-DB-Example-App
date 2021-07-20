@@ -25,17 +25,34 @@ export class MovieListComponent implements OnInit {
     this.getTrailers(this.movie_id);
   }
 
+  // the call we are making that only returns movies available on streaming providers will still return movies that are only available
+  // to rent and or buy. Making sure we are adding those to our providers still
   getStreamingProviders(movie_id: any) {
     this.subs.add(
-      this.movieHelper.getProviders(movie_id).subscribe((data) => {
-        let output;
-        if (data) {
-          output = data.results.US.flatrate;
-          this.providers = output.map((x) => new Streaming(x));
-        } else {
-          this.providers = [];
-        }
-      })
+      this.movieHelper
+        .getProviders(movie_id)
+        .subscribe((data: { results: any }) => {
+          let output;
+          if (data) {
+            debugger;
+            output = data.results.US;
+            if (output.flatrate) {
+              this.providers = output.flatrate.map(
+                (x: { [x: string]: any }) => new Streaming(x)
+              );
+            } else if (output.flatrate_and_buy) {
+              this.providers = output.flatrate_and_buy.map(
+                (x: { [x: string]: any }) => new Streaming(x)
+              );
+            } else if (output.rent) {
+              this.providers = output.rent.map(
+                (x: { [x: string]: any }) => new Streaming(x)
+              );
+            }
+          } else {
+            this.providers = [];
+          }
+        })
     );
   }
 
