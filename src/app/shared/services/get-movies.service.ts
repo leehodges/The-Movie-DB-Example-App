@@ -1,11 +1,15 @@
 import { Injectable, Output } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GetMoviesService {
-  constructor(private http: HttpClient) {}
+  private readonly movieApi: string;
+  constructor(private http: HttpClient) {
+    this.movieApi = `${environment.apiUrl}api/v1/movies`;
+  }
 
   //looked at API and decided to use their discover call that only lets me return movies that are available to stream, also seperated out by the streaming service they are available on
   getPopular(): any {
@@ -33,5 +37,15 @@ export class GetMoviesService {
         `${movie_id}` +
         '/videos?api_key=e87d04bb91f28a1bb981bd4236e09b48'
     );
+  }
+//  Calls to our API
+
+  getAllMovies() {
+    debugger;
+    return this.http.get<any>(`${this.movieApi}/index`);
+  }
+
+  createMovie(params) {
+    return this.http.post<any>(`${this.movieApi}/create`, params);
   }
 }
